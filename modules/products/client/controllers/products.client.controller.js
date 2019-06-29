@@ -6,9 +6,9 @@
     .module('products')
     .controller('ProductsController', ProductsController);
 
-  ProductsController.$inject = ['$scope', '$state','$location', '$window', 'Authentication', 'productResolve','Upload', '$timeout'];
+  ProductsController.$inject = ['$scope', '$state','$location', '$window', '$http','Authentication', 'productResolve','Upload', '$timeout'];
 
-  function ProductsController ($scope, $state, $location, $window, Authentication, productResolve,Upload, $timeout) {
+  function ProductsController ($scope, $state, $location, $window,$http, Authentication, productResolve,Upload, $timeout) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -59,42 +59,25 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.form.productForm');
         return false;
       }
-      console.log($scope.vm.product.name);
+      console.log($scope);
       console.log(vm.product.name);
-      // Create new Article object
-      // var product = new products({
-      //   name: $scope.name,
-      //   description: $scope.description,
-      //   articleImageURL: $scope.articleImageURL,
-      //   price: $scope.price,
-      //   availableStockQuantity: $scope.availableStockQuantity,
-      //   category: $scope.category,
-      //   user: $scope.user
-      // });
+
 
       var product = $scope.vm.product;
       console.log("-------------------"+product);
 
-      // TODO: move create/update logic to service
-      // if (vm.product._id) {
-      //   vm.product.$update(successCallback, errorCallback);
-      // } else {
-      //   vm.product.$save(successCallback, errorCallback);
-      // }
 
+      product.articleImageURL = 'modules/core/client/img/uploads/'+$scope.uploadedFile.name;
 
+      console.log(product.articleImageURL);
 
       product.$save(function (response) {
         console.log("---------------------------"+response._id)
-        $location.path('api/products/' + response._id);
+        // $location.path('api/products/' + response._id);
+        $state.go('products.view', {
+          productId: response._id
+        });
 
-        // Clear form fields
-        $scope.vm.product.name = '';
-        $scope.vm.product.description = '';
-        $scope.vm.product.articleImageURL = '';
-        $scope.vm.product.price = '';
-        $scope.vm.product.availableStockQuantity = '';
-        $scope.vm.product.category = '';
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
@@ -112,7 +95,7 @@
 
     $scope.update = function (isValid) {
       $scope.error = null;
-
+      console.log("-------------update--------------");
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.productForm');
 
@@ -121,15 +104,9 @@
 
       // var article = $scope.article;
       // article.articleImageURL = $scope.articleImageURL;
-
-      var product= $scope.product;
-      product.name= $scope.name;
-      product.description= $scope.description;
-      product.articleImageURL = $scope.articleImageURL;
-      product.price= $scope.price;
-      product.availableStockQuantity= $scope.availableStockQuantity;
-      product.category=$scope.category;
-      product.user= $scope.user;
+      console.log($scope);
+      var product = $scope.vm.product;
+      product.articleImageURL = 'modules/core/client/img/uploads/'+$scope.uploadedFile.name;
 
       product.$update(function () {
         $location.path('api/product/' + product._id);

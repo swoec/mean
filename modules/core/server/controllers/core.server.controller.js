@@ -86,7 +86,7 @@ exports.uploads = function (req, res) {
   //the target folder is /public/uploads/base64(username)/
   var userEncode = new Buffer("alex").toString('base64');
   // var userEncode = new Buffer(user.username).toString('base64');
-  var destFolder = path.join(path.resolve('./'),config.uploads.fileUpload.dest,userEncode);
+  var destFolder = path.join(path.resolve('./'),config.uploads.fileUpload.dest,'');
   var newFilename = file.originalFilename;
   var destFile = destFolder+"/"+newFilename;
   //var destURL = req.protocol + '://' + req.get('host') + config.uploads.fileUpload.dest+userEncode+"/"+Date.now()+".jpg";
@@ -115,7 +115,7 @@ exports.uploads = function (req, res) {
     }else{
       // For some reason, the diskStorage function of Multer doesn't work.
       // The following code is to move the file to the destination folder.
-      console.log('req.files.uploadedFile.size: -rrrrr--3333333---- '+data); // file size
+      console.log('-------------rrrrrrr------req.files.uploadedFile.size:'); // file size
       var stat =null;
       try {
         stat = fs.statSync(destFolder);
@@ -125,21 +125,21 @@ exports.uploads = function (req, res) {
       if (stat && !stat.isDirectory()) {
         throw new Error('Directory cannot be created because an inode of a different type exists at "' + destFolder + '"');
       } else {
-        console.log('req.files.uploadedFile.size: --yyyy-3333333---- '+data); // file size
+        console.log('--yyyy-3333333---- req.files.uploadedFile.size: '); // file size
         var readStream = fs.createReadStream(file.path);
         var writeStream = fs.createWriteStream(destFile);
         readStream.pipe(writeStream);
-        console.log('req.files.uploadedFile.size: ---3333333---- '+data); // file size
+        console.log('---3333333----req.files.uploadedFile.size:'); // file size
         writeStream.on('finish',function(err,data) {
-          console.log('req.files.uploadedFile.size: ---3333333---- '+data); // file size
-          console.log('req.files.uploadedFile.size: ---3333333---- '+req.files.uploadedFile.size); // file size
+          console.log('---3333333----req.files.uploadedFile.size:'+data); // file size
+          console.log('---3333333---- req.files.uploadedFile.size:'+req.files.uploadedFile.size); // file size
           if (err) throw err;
           fs.unlinkSync(file.path,function(err) {
-            console.log('req.files.uploadedFile.size: ---444333333---- '+req.files.uploadedFile.size); // file size
+            console.log('---444333333---- req.files.uploadedFile.size:'+req.files.uploadedFile.size); // file size
             if (err) {
               throw err;
             }else{
-              console.log('req.files.uploadedFile.size: ---5555333---- '+req.files.uploadedFile.size); // file size
+              console.log('---5555333----req.files.uploadedFile.size:'+req.files.uploadedFile.size); // file size
               return res.status(200).send({
                 uploadedURL: destURL,
                 uploadedFile: destFile,

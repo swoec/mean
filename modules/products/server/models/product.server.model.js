@@ -20,31 +20,31 @@ var ProductSchema = new Schema({
     type: String,
     default: '',
     required: 'Please fill Description',
-    trim: true
+    trim: false
   },
   articleImageURL: {
     type: String,
     default: '',
-    required: 'Please upload image',
-    trim: true
+    required: [false,'Please upload image'],
+    trim: false
   },
   price: {
     type: String,
     default: '',
     required: 'Please fill price',
-    trim: true
+    trim: false
   },
   availableStockQuantity: {
     type: String,
     default: '',
     required: 'Please fill Available Stock Quantity',
-    trim: true
+    trim: false
   },
   category: {
     type: String,
     default: '',
     required: 'Please fill Available Stock Quantity',
-    trim: true
+    trim: false
   },
   created: {
     type: Date,

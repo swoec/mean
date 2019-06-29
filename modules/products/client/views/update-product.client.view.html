@@ -3,7 +3,7 @@
     <h1>{{vm.product._id ? 'Edit Product' : 'New Product'}}</h1>
   </div>
   <div class="col-md-12">
-    <form name="vm.form.productForm" class="form-horizontal" ng-submit="vm.update(vm.form.productForm.$valid)" novalidate>
+    <form name="vm.form.productForm" class="form-horizontal" ng-submit="update(vm.form.productForm.$valid)" novalidate>
       <fieldset>
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Name</label>
@@ -20,19 +20,19 @@
           <!--<input name="image" type="text" ng-model="vm.product.articleImageURL" id="image" class="form-control" placeholder="image" required>-->
 
           <div class="form-group" show-errors>
-            <label for="title">Featured Image </label>
+            <label for="name">Featured Image </label>
             <button ng-show="vm.product.articleImageURL==null || vm.product.articleImageURL==''" type="button" class="btn btn-secondary" type="file"
                     ngf-select="uploadFiles($file, $invalidFiles)"
                     ng-model="vm.product.articleImageURL" name="file" ngf-model-invalid="errorFiles"
                     accept="image/*" ngf-max-size="1MB">
               Select Featured Image</button>
-            <div class="text-center" ng-show="vm.product.articleImageURL" >
-              <img ng-src="{{vm.product.articleImageURL}}" ngf-thumbnail="vm.product.articleImageURL" class="thumb"/>
-            </div>
+            <!--<div class="text-center" ng-show="vm.product.articleImageURL" >-->
+              <!--<img ng-src="{{vm.product.articleImageURL}}" class="thumb"/>-->
+            <!--</div>-->
             <div class="text-center" ng-show="vm.product.articleImageURL">
-              <button type="button" class="btn btn-secondary" ng-click="vm.product.articleImageURL = null" >Remove</button>
+              <button type="button" class="btn btn-secondary" ng-click="vm.product.articleImageURL = null" >renew image</button>
             </div>
-            <div class="alert alert-danger" ng-show="articleForm.file.$error.maxSize">File too large
+            <div class="alert alert-danger" ng-show="vm.form.productForm.file.$error.maxSize">File too large
               {{errorFiles[0].size / 1000000|number:1}}MB: max 1M</div>
           </div>
 

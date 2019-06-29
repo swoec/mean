@@ -37,55 +37,13 @@ exports.create = function(req, res) {
   var user = req.user;
   var existingImageUrl;
 
- console.log("-------------create------------------"+product.user)
+ console.log("-------------create-----server-------------"+product.user);
   // console.log("------------create------------"+req.files)
-  console.log("------------create------------"+product.name)
-  // var multerConfig;
-  // if (useS3Storage) {
-  //   multerConfig = {
-  //     storage: multerS3({
-  //       s3: s3,
-  //       bucket: config.aws.s3.bucket,
-  //       acl: 'public-read'
-  //     })
-  //   };
-  // } else {
-  //   multerConfig = config.uploads.profile.image;
-  // }
-  // multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).imageFileFilter;
-  //
-  // var upload = multer(multerConfig).single('newProfilePicture');
-
-  // if (user) {
-  //   existingImageUrl = product.image;
-  //   uploadImage()
-  //       .then(function () {
-  //       res.json(user);
-  //     })
-  //     .catch(function (err) {
-  //       res.status(422).send(err);
-  //     });
-  // } else {
-  //   res.status(401).send({
-  //     message: 'User is not signed in'
-  //   });
-  // }
-
-
-  // function uploadImage() {
-  //   return new Promise(function (resolve, reject) {
-  //     upload(req, res, function (uploadError) {
-  //       if (uploadError) {
-  //         reject(errorHandler.getErrorMessage(uploadError));
-  //       } else {
-  //         resolve();
-  //       }
-  //     });
-  //   });
-  // }
+  console.log("------------create------------"+product.name);
 
 
   product.save(function(err) {
+    console.log("------------create----err--------"+err);
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
