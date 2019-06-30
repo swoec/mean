@@ -32,13 +32,7 @@ exports.invokeRolesPolicies = function () {
     }]
   }, {
     roles: ['guest'],
-    allows: [{
-      resources: '/api/products',
-      permissions: ['get']
-    }, {
-      resources: '/api/products/:productId',
-      permissions: ['get']
-    }]
+    allows: []
   }]);
 };
 

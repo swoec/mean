@@ -1,4 +1,4 @@
-<section>
+<section data-ng-init="init()">
   <div class="page-header">
     <h1>{{vm.product._id ? 'Edit Product' : 'New Product'}}</h1>
   </div>
@@ -8,22 +8,17 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Name</label>
           <input name="name" type="text" ng-model="vm.product.name" id="name" class="form-control" placeholder="Name" required>
-
         </div>
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Sku</label>
           <input name="sku" type="text" ng-model="vm.product.sku" id="sku" class="form-control" placeholder="sku" required>
-
         </div>
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Description</label>
           <textarea name="description" type="text" ng-model="vm.product.description" id="description" class="form-control" placeholder="description" required></textarea>
-
         </div>
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Image</label>
-          <!--<input name="image" type="text" ng-model="vm.product.articleImageURL" id="image" class="form-control" placeholder="image" required>-->
-
           <div class="form-group" show-errors>
             <label for="name">Featured Image </label>
             <button ng-show="vm.product.articleImageURL==null || vm.product.articleImageURL==''" type="button" class="btn btn-secondary" type="file"
@@ -31,48 +26,28 @@
                     ng-model="vm.product.articleImageURL" name="file" ngf-model-invalid="errorFiles"
                     accept="image/*" ngf-max-size="1MB">
               Select Featured Image</button>
-            <!--<div class="text-center" ng-show="vm.product.articleImageURL" >-->
-              <!--<img ng-src="{{vm.product.articleImageURL}}" class="thumb"/>-->
-            <!--</div>-->
             <div class="text-center" ng-show="vm.product.articleImageURL">
               <button type="button" class="btn btn-secondary" ng-click="vm.product.articleImageURL = null" >renew image</button>
             </div>
             <div class="alert alert-danger" ng-show="vm.form.productForm.file.$error.maxSize">File too large
               {{errorFiles[0].size / 1000000|number:1}}MB: max 1M</div>
           </div>
-
-          <!--<div class="form-group text-center">-->
-            <!--<img ngf-src="vm.fileSelected ? vm.product.image : vm.product.image" class="img-thumbnail user-profile-picture" ngf-drop>-->
-          <!--</div>-->
-          <!--<div ng-show="vm.loading" class="form-group text-center">-->
-            <!--<img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">-->
-          <!--</div>-->
-          <!--<div ng-show="!vm.fileSelected" class="text-center form-group">-->
-            <!--<button class="btn btn-default btn-file" ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.product.image" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Select Picture</button>-->
-          <!--</div>-->
-
-
         </div>
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Price</label>
           <input name="price" type="text" ng-model="vm.product.price" id="price" class="form-control" placeholder="price" required>
-
         </div>
         <div class="form-group" show-errors>
           <label class="control-label" for="availableStockQuantity">Available Stock Quantity</label>
           <input name="availableStockQuantity" type="text" ng-model="vm.product.availableStockQuantity" id="availableStockQuantity" class="form-control" placeholder="availableStockQuantity" required>
-
         </div>
         <div class="form-group" show-errors>
-          <label class="control-label" for="category">Category</label>
-          <select name="category" ng-model="vm.product.category" id="category" class="form-control" required>
-            <option value=""> --- Please select --- </option>
-            <option value="Business">Business</option>
-            <option value="Education">Education</option>
-            <option value="Other">Other</option>
-            <option value="Technology">Technology</option>
-          </select>
-
+          <label class="control-label" >Category</label>
+          <input type="hidden" name="category" value="" ng-model="vm.product.category" />
+          <label ng-repeat="category in categories">
+            <input type='checkbox'
+                   ng-checked="checkedFruits.indexOf(category.name) != -1" ng-click="toggleCheck(category.name)">{{category.name}}
+          </label>
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.product._id ? 'Update' : 'Create'}}</button>

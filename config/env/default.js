@@ -60,14 +60,14 @@ module.exports = {
       image: {
         dest: './modules/users/client/img/profile/uploads/',
         limits: {
-          fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+          fileSize: 1 * 1024 * 1024
         }
       }
     },
     fileUpload: {
-      dest: './modules/core/client/img/uploads/', // file upload destination path
+      dest: './modules/core/client/img/uploads/',
       limits: {
-        fileSize: 10*1024*1024 // Max file size in bytes (10 MB)
+        fileSize: 10*1024*1024
       }
     }
   },

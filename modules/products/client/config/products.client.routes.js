@@ -22,16 +22,7 @@
         data: {
           pageTitle: 'Products List'
         }
-      }) .state('products.search', {
-      url: '/search',
-      templateUrl: '/modules/products/client/views/seach-products.client.view.html',
-      controller: 'ProductsSearchController',
-      controllerAs: 'vm',
-      data: {
-        pageTitle: 'Products search'
-      }
-    })
-      .state('products.create', {
+      }).state('products.create', {
         url: '/create',
         templateUrl: '/modules/products/client/views/form-product.client.view.html',
         controller: 'ProductsController',

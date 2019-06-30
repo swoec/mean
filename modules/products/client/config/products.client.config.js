@@ -22,11 +22,6 @@
       state: 'products.list'
     });
 
-    menuService.addSubMenuItem('topbar', 'products', {
-      title: 'search Products',
-      state: 'products.search'
-    });
-
     // Add the dropdown create item
     menuService.addSubMenuItem('topbar', 'products', {
       title: 'Create Product',

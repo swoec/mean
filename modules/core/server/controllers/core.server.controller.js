@@ -2,8 +2,8 @@
 
 var validator = require('validator'),
   path = require('path'),
-  config = require(path.resolve('./config/config'));
-var fs = require('fs'),
+  config = require(path.resolve('./config/config')),
+  fs = require('fs'),
   multer = require('multer'),
   util = require('util');
 
@@ -65,34 +65,13 @@ exports.renderNotFound = function (req, res) {
   });
 };
 
-
-
 exports.uploads = function (req, res) {
-  console.log('req.headers.content-type:-------'+req.headers['content-type']); //must be multipart/form-data
-  console.log('req.files.uploadedFile: --------'+req.files.uploadedFile); //file object
-  console.log('req.files.uploadedFile.fieldname: ------'+req.files.uploadedFile.fieldName);// "uploadedFile"
-  console.log('req.files.uploadedFile.name:--------- '+req.files.uploadedFile.name); // original filename
-  console.log('req.files.uploadedFile.originalFilename: ---------'+req.files.uploadedFile.originalFilename); // orininal Filename
-  console.log('req.files.uploadedFile.type: --------'+req.files.uploadedFile.type); //image/jpeg
-  console.log('req.files.uploadedFile.size: ------- '+req.files.uploadedFile.size); // file size
-  // console.log('req.body.testkey: '+req.body.testkey); // submited form
-
-  var file=req.files.uploadedFile;
-  var user = req.user;
-  var message = null;
-
-  console.log("---------------file----------------"+file);
-  // user.username="Alex";
-  //the target folder is /public/uploads/base64(username)/
+  var file = req.files.uploadedFile;
   var userEncode = new Buffer("alex").toString('base64');
-  // var userEncode = new Buffer(user.username).toString('base64');
-  var destFolder = path.join(path.resolve('./'),config.uploads.fileUpload.dest,'');
+  var destFolder = path.join(path.resolve('./'), config.uploads.fileUpload.dest, '');
   var newFilename = file.originalFilename;
-  var destFile = destFolder+"/"+newFilename;
-  //var destURL = req.protocol + '://' + req.get('host') + config.uploads.fileUpload.dest+userEncode+"/"+Date.now()+".jpg";
-  var destURL = config.uploads.fileUpload.dest+userEncode+"/"+newFilename;
-  console.log('req.files.uploadedFile.size: ----111--- '+req.files.uploadedFile.size); // file size
-  //config multer, somehow the diskStorage() is not working
+  var destFile = destFolder + "/" + newFilename;
+  var destURL = config.uploads.fileUpload.dest + userEncode + "/" + newFilename;
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, destFolder);
@@ -102,21 +81,20 @@ exports.uploads = function (req, res) {
     }
   });
 
-  var upload = multer({ storage : storage}).single('uploadedFile');
+  var upload = multer({storage: storage}).single('uploadedFile');
   // Filtering to upload only images
   upload.fileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
-  console.log('req.files.uploadedFile.size: ----222222--- '+req.files.uploadedFile.size); // file size
+
   // upload file
-  upload(req,res,function (err) {
-    if(err) {
+  upload(req, res, function (err) {
+    if (err) {
       return res.status(400).send({
         message: 'Error occurred while uploading profile picture'
       });
-    }else{
+    } else {
       // For some reason, the diskStorage function of Multer doesn't work.
       // The following code is to move the file to the destination folder.
-      console.log('-------------rrrrrrr------req.files.uploadedFile.size:'); // file size
-      var stat =null;
+      var stat = null;
       try {
         stat = fs.statSync(destFolder);
       } catch (err) {
@@ -125,21 +103,15 @@ exports.uploads = function (req, res) {
       if (stat && !stat.isDirectory()) {
         throw new Error('Directory cannot be created because an inode of a different type exists at "' + destFolder + '"');
       } else {
-        console.log('--yyyy-3333333---- req.files.uploadedFile.size: '); // file size
         var readStream = fs.createReadStream(file.path);
         var writeStream = fs.createWriteStream(destFile);
         readStream.pipe(writeStream);
-        console.log('---3333333----req.files.uploadedFile.size:'); // file size
-        writeStream.on('finish',function(err,data) {
-          console.log('---3333333----req.files.uploadedFile.size:'+data); // file size
-          console.log('---3333333---- req.files.uploadedFile.size:'+req.files.uploadedFile.size); // file size
+        writeStream.on('finish', function (err, data) {
           if (err) throw err;
-          fs.unlinkSync(file.path,function(err) {
-            console.log('---444333333---- req.files.uploadedFile.size:'+req.files.uploadedFile.size); // file size
+          fs.unlinkSync(file.path, function (err) {
             if (err) {
               throw err;
-            }else{
-              console.log('---5555333----req.files.uploadedFile.size:'+req.files.uploadedFile.size); // file size
+            } else {
               return res.status(200).send({
                 uploadedURL: destURL,
                 uploadedFile: destFile,
@@ -149,9 +121,6 @@ exports.uploads = function (req, res) {
             }
           });
         });
-
-
-
       }
     }
   });
