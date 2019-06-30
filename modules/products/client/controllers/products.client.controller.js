@@ -6,9 +6,9 @@
     .module('products')
     .controller('ProductsController', ProductsController);
 
-  ProductsController.$inject = ['$scope', '$state','$location', '$window', '$http','Authentication', 'productResolve','Upload', '$timeout'];
+  ProductsController.$inject = ['$scope', '$state','$location', '$window','$http','Authentication', 'productResolve','Upload', '$timeout'];
 
-  function ProductsController ($scope, $state, $location, $window,$http, Authentication, productResolve,Upload, $timeout) {
+  function ProductsController ($scope, $state, $location,$http, $window,Authentication, productResolve,Upload, $timeout) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -17,6 +17,7 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+
 
 
     $scope.uploadFiles = function(file, errFiles) {
@@ -67,7 +68,7 @@
       console.log("-------------------"+product);
 
 
-      product.articleImageURL = 'modules/core/client/img/uploads/'+$scope.uploadedFile.name;
+      product.articleImageURL = '/modules/core/client/img/uploads/'+$scope.uploadedFile.name;
 
       console.log(product.articleImageURL);
 
@@ -93,6 +94,24 @@
       }
     }
 
+    // $scope.querys = function (isValid){
+    //   $scope.error = null;
+    //   console.log("-------------query--------------");
+    //   if (!isValid) {
+    //     $scope.$broadcast('show-errors-check-validity', 'vm.form.productForm');
+    //
+    //     return false;
+    //   }
+    //   var product = $scope.vm.product;
+    //
+    //   product.query().then(function (data) {
+    //     $location.path('/');
+    //
+    //   });
+    //
+    //
+    // }
+
     $scope.update = function (isValid) {
       $scope.error = null;
       console.log("-------------update--------------");
@@ -106,13 +125,50 @@
       // article.articleImageURL = $scope.articleImageURL;
       console.log($scope);
       var product = $scope.vm.product;
-      product.articleImageURL = 'modules/core/client/img/uploads/'+$scope.uploadedFile.name;
+      if($scope.uploadedFile != undefined) {
+        product.articleImageURL = 'modules/core/client/img/uploads/' + $scope.uploadedFile.name;
+      }
+      // $http.get("api/product/"+product._id).then(function (res) {
+      //   console.log(res);
+      //
+      // }, function (err) {
+      //   console.log(err);
+      // });
+      //
+      // $http.put("api/product/"+product._id, JSON.stringify(product))
+      //   .then(
+      //     function(response){
+      //       // success callback
+      //       $location.path('api/product/' + product._id);
+      //     },
+      //     function(response){
+      //       // failure callback
+      //       $scope.error = response.data.message;
+      //     }
+      //   );
 
-      product.$update(function () {
-        $location.path('api/product/' + product._id);
+      // $http.put('api/product/'+product._id+product).success(function (data) {
+      //   $location.path('api/product/' + product._id);
+      // }).error(function (errorResponse) {
+      //   $scope.error = errorResponse.data.message;
+      // });
+
+      product.$update(function (response) {
+        console.log("---------------------------"+response._id)
+        // $location.path('api/products/' + response._id);
+        $state.go('products.view', {
+          productId: response._id
+        });
+
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
+
+      // product.$update(function () {
+      //   $location.path('/api/product/' + product._id);
+      // }, function (errorResponse) {
+      //   $scope.error = errorResponse.data.message;
+      // });
     };
   }
 }());

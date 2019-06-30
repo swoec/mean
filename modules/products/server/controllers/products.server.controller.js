@@ -142,3 +142,16 @@ exports.productByID = function(req, res, next, id) {
     next();
   });
 };
+
+exports.productBySkuandName = function(req, res, sku, name) {
+
+  Product.find({"name":name,$or:[{"sku":sku}]}).sort('-created').populate('user', 'displayName').exec(function(err, products) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(products);
+    }
+  });
+};

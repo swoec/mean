@@ -11,6 +11,11 @@
 
         </div>
         <div class="form-group" show-errors>
+          <label class="control-label" for="name">Sku</label>
+          <input name="sku" type="text" ng-model="vm.product.sku" id="sku" class="form-control" placeholder="sku" required>
+
+        </div>
+        <div class="form-group" show-errors>
           <label class="control-label" for="name">Description</label>
           <textarea name="description" type="text" ng-model="vm.product.description" id="description" class="form-control" placeholder="description" required></textarea>
 

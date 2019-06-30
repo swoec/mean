@@ -15,6 +15,11 @@ var ProductSchema = new Schema({
     default: '',
     required: 'Please fill Product name',
     trim: true
+  }, sku: {
+    type: String,
+    default: '',
+    required: 'Please fill Product name',
+    trim: true
   },
   description: {
     type: String,

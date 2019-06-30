@@ -11,21 +11,29 @@
     $stateProvider
       .state('products', {
         abstract: true,
-        url: '',
+        url: '/products',
         template: '<ui-view/>'
       })
       .state('products.list', {
         url: '',
-        templateUrl: 'modules/products/client/views/list-products.client.view.html',
+        templateUrl: '/modules/products/client/views/list-products.client.view.html',
         controller: 'ProductsListController',
         controllerAs: 'vm',
         data: {
           pageTitle: 'Products List'
         }
-      })
+      }) .state('products.search', {
+      url: '/search',
+      templateUrl: '/modules/products/client/views/seach-products.client.view.html',
+      controller: 'ProductsListController',
+      controllerAs: 'vm',
+      data: {
+        pageTitle: 'Products search'
+      }
+    })
       .state('products.create', {
         url: '/create',
-        templateUrl: 'modules/products/client/views/form-product.client.view.html',
+        templateUrl: '/modules/products/client/views/form-product.client.view.html',
         controller: 'ProductsController',
         controllerAs: 'vm',
         resolve: {
@@ -38,7 +46,7 @@
       })
       .state('products.edit', {
         url: '/:productId/edit',
-        templateUrl: 'modules/products/client/views/update-product.client.view.html',
+        templateUrl: '/modules/products/client/views/update-product.client.view.html',
         controller: 'ProductsController',
         controllerAs: 'vm',
         resolve: {
@@ -51,7 +59,7 @@
       })
       .state('products.view', {
         url: '/:productId',
-        templateUrl: 'modules/products/client/views/view-product.client.view.html',
+        templateUrl: '/modules/products/client/views/view-product.client.view.html',
         controller: 'ProductsController',
         controllerAs: 'vm',
         resolve: {
