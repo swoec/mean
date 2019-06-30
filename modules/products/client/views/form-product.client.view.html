@@ -1,4 +1,4 @@
-<section>
+<section  data-ng-init="init()">
   <div class="page-header">
     <h1>{{vm.product._id ? 'Edit Product' : 'New Product'}}</h1>
   </div>
@@ -70,14 +70,23 @@
 
         </div>
         <div class="form-group" show-errors>
-          <label class="control-label" for="category">Category</label>
-          <select name="category" ng-model="vm.product.category" id="category" class="form-control" required>
-            <option value=""> --- Please select --- </option>
-            <option value="Business">Business</option>
-            <option value="Education">Education</option>
-            <option value="Other">Other</option>
-            <option value="Technology">Technology</option>
-          </select>
+          <label class="control-label" >Category</label>
+          <!--<select name="category" ng-model="vm.product.category" id="category" class="form-control" required>-->
+            <!--<option value=""> -&#45;&#45; Please select -&#45;&#45; </option>-->
+            <!--<option value="Business">Business</option>-->
+            <!--<option value="Education">Education</option>-->
+            <!--<option value="Other">Other</option>-->
+            <!--<option value="Technology">Technology</option>-->
+          <!--</select>-->
+          <label ng-repeat="category in categories">
+            <input
+              type="checkbox"
+              name="selectedFruits[]"
+              value="{{category.name}}"
+              ng-checked="selection.indexOf(category.name) > -1"
+              ng-click="toggleSelection(category.name)"
+            > {{category.name}}
+          </label>
 
         </div>
         <div class="form-group">

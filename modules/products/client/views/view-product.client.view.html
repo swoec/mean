@@ -1,8 +1,10 @@
 <section>
   <div class="page-header">
     <h1 ng-bind="vm.product.name"></h1>
+    <h6 class="list-group-item-heading" ng-bind="vm.product.sku"></h6>
   </div>
   <div>
+    <p>{{vm.product.description}}</p>
     <img ng-src="{{vm.product.articleImageURL}}" id="photo-id" height="100" />
   </div>
 

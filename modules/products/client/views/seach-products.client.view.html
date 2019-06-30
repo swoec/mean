@@ -3,12 +3,12 @@
     <h1>Products</h1>
   </div>
   <div>
-    <form name="vm.form.productForm" class="form-horizontal" ng-submit="querys(vm.form.productForm.$valid)" novalidate>
+    <form name="vm.form.productForm" class="form-horizontal" ng-submit="findWithParams(vm.form.productForm.$valid)" novalidate>
       <div style="display: inline-block">
 
         <div>
           <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.product.name" id="name" class="form-control" placeholder="Name" required>
+          <input name="name" type="text" ng-model="vm.product.name" id="name" class="form-control" placeholder="name" required>
 
         </div>
         <div>
@@ -18,7 +18,7 @@
         </div>
 
         <div>
-          <button type="submit" class="btn btn-default" ng-click="sumbit()">query</button>
+          <button type="submit" class="btn btn-default">query</button>
         </div>
 
 

@@ -75,6 +75,7 @@
       product.$save(function (response) {
         console.log("---------------------------"+response._id)
         // $location.path('api/products/' + response._id);
+        console.log('response id------------'+response._id);
         $state.go('products.view', {
           productId: response._id
         });
@@ -111,6 +112,45 @@
     //
     //
     // }
+
+    $scope.init = function(){
+
+      $http({
+        method: 'GET',
+        url: '/categories'
+      }).then(function successCallback(response) {
+        $scope.categories = response.data;
+        // this callback will be called asynchronously
+        // when the response is available
+      }, function errorCallback(response) {
+        console.log(response);
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+      });
+
+      // $http.get('/categories').then(function(res){
+      //
+      //     $scope.categories = res.data;
+      //
+      //
+      // }, function(err){
+      //   console.log(err);
+      // })
+    };
+
+    $scope.toggleSelection = function toggleSelection(fruitName) {
+      var idx = $scope.vm.product.categories.indexOf(fruitName);
+
+      // Is currently selected
+      if (idx > -1) {
+        $scope.vm.product.categories.splice(idx, 1);
+      }
+
+      // Is newly selected
+      else {
+        $scope.vm.product.categories.push(fruitName);
+      }
+    };
 
     $scope.update = function (isValid) {
       $scope.error = null;

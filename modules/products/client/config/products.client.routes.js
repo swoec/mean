@@ -25,7 +25,7 @@
       }) .state('products.search', {
       url: '/search',
       templateUrl: '/modules/products/client/views/seach-products.client.view.html',
-      controller: 'ProductsListController',
+      controller: 'ProductsSearchController',
       controllerAs: 'vm',
       data: {
         pageTitle: 'Products search'

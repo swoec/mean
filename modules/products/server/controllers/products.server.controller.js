@@ -58,6 +58,7 @@ exports.create = function(req, res) {
  * Show the current Product
  */
 exports.read = function(req, res) {
+  console.log('-----------read--------'+req);
   // convert mongoose document to JSON
   var product = req.product ? req.product.toJSON() : {};
 
@@ -108,6 +109,7 @@ exports.delete = function(req, res) {
  * List of Products
  */
 exports.list = function(req, res) {
+  console.log('-----------list--------'+req);
   Product.find().sort('-created').populate('user', 'displayName').exec(function(err, products) {
     if (err) {
       return res.status(400).send({
@@ -115,6 +117,7 @@ exports.list = function(req, res) {
       });
     } else {
       res.jsonp(products);
+      console.log('-----------list----products----'+JSON.stringify(products));
     }
   });
 };
@@ -123,7 +126,7 @@ exports.list = function(req, res) {
  * Product middleware
  */
 exports.productByID = function(req, res, next, id) {
-
+  console.log('-----------list--id------'+id);
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       message: 'Product is invalid'
@@ -131,6 +134,7 @@ exports.productByID = function(req, res, next, id) {
   }
 
   Product.findById(id).populate('user', 'displayName').exec(function (err, product) {
+    console.log('--------find---list--------'+product);
     if (err) {
       return next(err);
     } else if (!product) {
@@ -143,14 +147,16 @@ exports.productByID = function(req, res, next, id) {
   });
 };
 
-exports.productBySkuandName = function(req, res, sku, name) {
-
-  Product.find({"name":name,$or:[{"sku":sku}]}).sort('-created').populate('user', 'displayName').exec(function(err, products) {
+exports.findBySkuAndName = function(req, res) {
+  // {"name":name,$or:[{"sku":sku}]}
+  console.log('-----------name--------'+req.query['name']+'sku----------'+req.query['sku']);
+  Product.find().where('name').eq(req.query['name']).where('sku').eq(req.query['sku']).sort('-created').populate('user', 'displayName').exec(function(err, products) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      console.log('-----------name--------'+products);
       res.jsonp(products);
     }
   });

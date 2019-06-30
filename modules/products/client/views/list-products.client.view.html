@@ -3,8 +3,17 @@
     <h1>Products</h1>
   </div>
 
+  <!--data-ng-controller="ProductsListController" data-ng-init="find()"-->
+
+    <div>
+      <label class="control-label" >Search</label>
+      <input name="searchText" type="text" ng-model="searchText" id="searchText" class="form-control" placeholder="search name sku" >
+
+    </div>
+
+
   <div class="list-group">
-    <a ng-repeat="product in vm.products"
+    <a ng-repeat="product in vm.products | filter:searchText"
        ui-sref="products.view({ productId: product._id })"
        class="list-group-item">
       <small class="list-group-item-text">
@@ -15,6 +24,8 @@
         <span ng-if="!product.user">Deleted User</span>
       </small>
       <h4 class="list-group-item-heading" ng-bind="product.name"></h4>
+      <h6 class="list-group-item-heading" ng-bind="product.sku"></h6>
+      <p>{{product.description | limitTo: 100}}</p>
       <img ng-src="{{product.articleImageURL}}" height="40" />
     </a>
   </div>
