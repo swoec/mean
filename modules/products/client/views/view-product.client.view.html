@@ -4,7 +4,9 @@
     <h6 class="list-group-item-heading" ng-bind="vm.product.sku"></h6>
   </div>
   <div>
-    <p>{{vm.product.description}}</p>
+    <p>Description: {{vm.product.description}}</p>
+    <p>Price: {{vm.product.price}}</p>
+    <p>Available Stock Quantity: {{vm.product.availableStockQuantity}}</p>
     <img ng-src="{{vm.product.articleImageURL}}" id="photo-id" height="100" />
   </div>
 
